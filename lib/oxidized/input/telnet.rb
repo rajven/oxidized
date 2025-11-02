@@ -12,11 +12,11 @@ module Oxidized
       @timeout = @node.timeout
       @node.model.cfg['telnet'].each { |cb| instance_exec(&cb) }
       @log = File.open(Oxidized::Config::LOG + "/#{@node.ip}-telnet", 'w') if Oxidized.config.input.debug?
-      port = vars(:telnet_port) || 23
+      port = @node.input_port || vars(:telnet_port) || 23
 
       telnet_opts = {
         'Host'    => @node.ip,
-        'Port'    => port.to_i,
+        'Port'    => (port || 23).to_i,
         'Timeout' => @timeout,
         'Model'   => @node.model,
         'Log'     => @log

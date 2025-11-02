@@ -140,6 +140,7 @@ module Oxidized
 
     def make_ssh_opts
       secure = Oxidized.config.input.ssh.secure?
+      node_ssh_port = @node.input_port || vars(:ssh_port)
       ssh_opts = {
         number_of_password_prompts:      0,
         keepalive:                       vars(:ssh_no_keepalive) ? false : true,
@@ -147,7 +148,7 @@ module Oxidized
         append_all_supported_algorithms: true,
         password:                        @node.auth[:password],
         timeout:                         @node.timeout,
-        port:                            (vars(:ssh_port) || 22).to_i,
+        port:                            (node_ssh_port || 22).to_i,
         forward_agent:                   false
       }
 
